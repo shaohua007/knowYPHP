@@ -5,15 +5,17 @@
  * Date: 2016-12-30
  * Time: 11:13
  */
-require '../Controller/userController.php';
-require '../Comment/comment.php';
+require $_DIR_ROOT.'Controller/userController.php';
+require $_DIR_ROOT.'Comment/comment.php';
 
 class userApi
 {
     public function index() {
-        $lib_replace_end_tag = new comment();
-        $type = $lib_replace_end_tag->lib_replace_end_tag(trim('reg <>'));
-        $uname = $lib_replace_end_tag->lib_replace_end_tag(trim('少华0 1 '));
+//        $lib_replace_end_tag = new comment();
+//        $type = $lib_replace_end_tag->lib_replace_end_tag(trim('reg'));
+//        $uname = $lib_replace_end_tag->lib_replace_end_tag(trim('少华0 1 '));
+        $type = trim('login');
+        $uname = trim('少华01');
         $password = md5('123123');
         switch ($type){
             case 'reg':
@@ -25,6 +27,7 @@ class userApi
                 $userCtr->login($uname, $password);
                 break;
             default:
+                echo '666';
                 exit(json_encode('注册失败，请重试'));
         }
     }
