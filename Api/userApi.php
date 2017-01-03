@@ -14,7 +14,7 @@ class userApi
 //        $lib_replace_end_tag = new comment();
 //        $type = $lib_replace_end_tag->lib_replace_end_tag(trim('reg'));
 //        $uname = $lib_replace_end_tag->lib_replace_end_tag(trim('少华0 1 '));
-        $type = trim('login');
+        $type = trim('reg');
         $uname = trim('少华01');
         $password = md5('123123');
         switch ($type){
@@ -27,7 +27,6 @@ class userApi
                 $userCtr->login($uname, $password);
                 break;
             default:
-                echo '666';
                 exit(json_encode('注册失败，请重试'));
         }
     }
