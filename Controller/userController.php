@@ -10,11 +10,11 @@ require $_DIR_ROOT.'Model/userModel.php';
 
 class userController
 {
-    public function reg($uname='',$password=''){
+    public function reg($uname,$password){
         $uModel = new userModel();
         $uModel->reg($uname,$password);
     }
-    public function login($uname='',$password=''){
+    public function login($uname,$password){
         $uModel = new userModel();
         $uModel->login($uname,$password);
     }
