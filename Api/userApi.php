@@ -11,23 +11,19 @@ require $_DIR_ROOT.'Comment/comment.php';
 class userApi
 {
     public function index() {
-//        $lib_replace_end_tag = new comment();
-//        $type = $lib_replace_end_tag->lib_replace_end_tag(trim('reg'));
-//        $uname = $lib_replace_end_tag->lib_replace_end_tag(trim('少华0 1 '));
-//        $type = trim('addDogInfo');
-        $json_datas = $_POST['json_datas'];
-        $type = $json_datas['type'];
-        $reqDatas = $_POST['datas'];
+        $reqDatas = $_POST['json_datas'];
+        $type = $_POST['type'];
+        var_dump($type);
         switch ($type){
             case 'reg':
-                $uname = trim('少华07');
+                $uname = trim('少华06');
                 $password = md5('123123');
                 $userCtr = new userController();
                 $userCtr->reg($uname, $password);
                 break;
             case 'login':
-                $uname = trim('少华01');
-                $password = md5('123123');
+                $uname = $reqDatas['uname'];
+                $password = $reqDatas['password'];
                 $userCtr = new userController();
                 $userCtr->login($uname, $password);
                 break;

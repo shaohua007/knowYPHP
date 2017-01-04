@@ -46,11 +46,11 @@ class userModel
         if($res01){
             $sql02 = "select password from single_dog_users where uname='$uname'";
             $res02 = mysqli_fetch_assoc(mysqli_query($mysqli, $sql02));
-//            $status = ($password == $res02['password']) ? 200:201;
             if($password == $res02['password']){
                 $sql03 = "select uid from single_dog_info where uname='$uname'";
 //                $uid = mysqli_query($mysqli, $sql03);
                 $uid = mysqli_fetch_assoc(mysqli_query($mysqli, $sql03));
+//                var_dump(mysqli_query($mysqli, $sql03));
                 $params['status'] = 200;
                 $params['uid'] = $uid['uid'];
                 echo json_encode($params);
