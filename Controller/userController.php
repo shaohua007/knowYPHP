@@ -18,4 +18,8 @@ class userController
         $uModel = new userModel();
         $uModel->login($uname,$password);
     }
+    public function addInfo($reqDatas){
+        $uModel = new userModel();
+        $uModel->addInfo($reqDatas);
+    }
 }

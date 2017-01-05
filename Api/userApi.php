@@ -11,13 +11,14 @@ require $_DIR_ROOT.'Comment/comment.php';
 class userApi
 {
     public function index() {
-        $reqDatas = $_POST['json_datas'];
-        $type = $_POST['type'];
-        var_dump($type);
+//        var_dump(json_decode(file_get_contents('php://input'),true));
+        $tmp = $_POST;
+        $reqDatas = $tmp['datas'];
+        $type = $tmp['type'];
         switch ($type){
             case 'reg':
-                $uname = trim('少华06');
-                $password = md5('123123');
+                $uname = $reqDatas['uname'];
+                $password = $reqDatas['password'];
                 $userCtr = new userController();
                 $userCtr->reg($uname, $password);
                 break;
@@ -28,10 +29,8 @@ class userApi
                 $userCtr->login($uname, $password);
                 break;
             case 'addDogInfo':
-//                $reqDatas = $_POST['datas'];
-                echo $reqDatas;
-//                $userCtr = new userController();
-//                $userCtr->addInfo($reqDatas);
+                $userCtr = new userController();
+                $userCtr->addInfo($reqDatas);
                 break;
             case 'editDogInfo':
                 $userCtr = new userController();
@@ -50,7 +49,7 @@ class userApi
                 $userCtr->showFriends($uname, $password);
                 break;
             default:
-                exit(json_encode('请检查接口后请重试！'));
+                exit('请检查接口后请重试！');
         }
     }
 }
