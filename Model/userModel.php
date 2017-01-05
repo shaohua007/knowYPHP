@@ -72,6 +72,7 @@ class userModel
         $connection = new conn();
         $mysqli = $connection->index();
         $dogInfo = new dogInfo(); //实例化数据模型
+        $params = array();
         foreach($reqDatas as $_key => $_value){
             switch($_key){
                 case 'uid':  $dogInfo->uid = $_value;break;
@@ -95,17 +96,37 @@ class userModel
 //        $sports = $reqDatas['sports'];
 //        $reading = $reqDatas['reading'];
 //        $daily = $reqDatas['daily'];
-        $sql01 = "update single_dog_info set sex='$dogInfo->uid',age='$dogInfo->age',edu='$dogInfo->edu',addr='$dogInfo->addr',sports='$dogInfo->sports',reading='$dogInfo->reading',daily='$dogInfo->daily'  where uid = '$dogInfo->uid'";
+        $sql01 = "update single_dog_info set sex='$dogInfo->sex',age='$dogInfo->age',edu='$dogInfo->edu',addr='$dogInfo->addr',sports='$dogInfo->sports',reading='$dogInfo->reading',daily='$dogInfo->daily'  where uid = '$dogInfo->uid'";
         $res = mysqli_query($mysqli,$sql01);
         if($res){
             $params['status'] = 200;
-            $params['datas'] = '更新成功';
+            $params['datas'] = '更新个人信息成功';
             echo json_encode($params);
         }else{
             $params['status'] = 201;
-            $params['datas'] = '更新失败';
+            $params['datas'] = '更新个人信息失败';
             echo json_encode($params);
         }
         mysqli_close($mysqli);
+    }
+    public function showInfo($reqDatas) {
+        $connection = new conn();
+        $mysqli = $connection->index();
+        $params = array();
+        $sql01 = "select * from single_dog_info where uid= '{$reqDatas['uid']}'";
+        $res01 = mysqli_fetch_assoc(mysqli_query($mysqli,$sql01));
+        if($res01){
+            $sonArray = array();
+            foreach($res01 as $_key => $_value) {
+                $sonArray["$_key"] = $_value;
+            }
+            $params['status'] = 200;
+            $params['datas'] = $sonArray;
+            echo json_encode($params);
+        }else{
+            $params['status'] = 201;
+            $params['datas'] = '获取数据失败！';
+            echo json_encode($params);
+        }
     }
 }

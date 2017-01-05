@@ -22,4 +22,8 @@ class userController
         $uModel = new userModel();
         $uModel->addInfo($reqDatas);
     }
+    public function showInfo($reqDatas) {
+        $uModel = new userModel();
+        $uModel->showInfo($reqDatas);
+    }
 }

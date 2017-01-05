@@ -32,13 +32,9 @@ class userApi
                 $userCtr = new userController();
                 $userCtr->addInfo($reqDatas);
                 break;
-            case 'editDogInfo':
-                $userCtr = new userController();
-                $userCtr->editInfo($uname, $password);
-                break;
             case 'showDogInfo':
                 $userCtr = new userController();
-                $userCtr->showInfo($uname, $password);
+                $userCtr->showInfo($reqDatas);
                 break;
             case 'addFriends':
                 $userCtr = new userController();
