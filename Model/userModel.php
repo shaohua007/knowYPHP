@@ -128,5 +128,10 @@ class userModel
             $params['datas'] = '获取数据失败！';
             echo json_encode($params);
         }
+        mysqli_close($mysqli);
+    }
+    public function addFriends($reqDatas) {
+        $dog1 = $reqDatas['dog1'];
+        $dog2 = $reqDatas['dog2'];
     }
 }

@@ -38,11 +38,11 @@ class userApi
                 break;
             case 'addFriends':
                 $userCtr = new userController();
-                $userCtr->addFriends($uname, $password);
+                $userCtr->addFriends($reqDatas);
                 break;
             case 'showFriends':
                 $userCtr = new userController();
-                $userCtr->showFriends($uname, $password);
+                $userCtr->showFriends($reqDatas);
                 break;
             default:
                 exit('请检查接口后请重试！');

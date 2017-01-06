@@ -26,4 +26,8 @@ class userController
         $uModel = new userModel();
         $uModel->showInfo($reqDatas);
     }
+    public function addFriends($reqDatas) {
+        $uModel = new userModel();
+        $uModel->addFriends($reqDatas);
+    }
 }
