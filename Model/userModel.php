@@ -130,8 +130,5 @@ class userModel
         }
         mysqli_close($mysqli);
     }
-    public function addFriends($reqDatas) {
-        $dog1 = $reqDatas['dog1'];
-        $dog2 = $reqDatas['dog2'];
-    }
+
 }

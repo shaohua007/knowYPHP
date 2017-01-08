@@ -6,6 +6,7 @@
  * Time: 11:13
  */
 require $_DIR_ROOT.'Controller/userController.php';
+require $_DIR_ROOT.'Controller/actionController.php';
 require $_DIR_ROOT.'Comment/comment.php';
 
 class userApi
@@ -29,7 +30,7 @@ class userApi
                 $userCtr->login($uname, $password);
                 break;
             case 'addDogInfo':
-                $userCtr = new userController();
+                $userCtr =new userController();
                 $userCtr->addInfo($reqDatas);
                 break;
             case 'showDogInfo':
@@ -37,12 +38,12 @@ class userApi
                 $userCtr->showInfo($reqDatas);
                 break;
             case 'addFriends':
-                $userCtr = new userController();
-                $userCtr->addFriends($reqDatas);
+                $actionCtr = new actionController();
+                $actionCtr->addFriends($reqDatas);
                 break;
             case 'showFriends':
-                $userCtr = new userController();
-                $userCtr->showFriends($reqDatas);
+                $actionCtr = new actionController();
+                $actionCtr->showFriends($reqDatas);
                 break;
             default:
                 exit('请检查接口后请重试！');
