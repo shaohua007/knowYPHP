@@ -19,4 +19,12 @@ class actionController {
         $uModel = new actionModel();
         $uModel->showFriends($reqDatas);
     }
+    public function showLove($reqDatas) {
+        $uModel = new actionModel();
+        $uModel->showLove($reqDatas);
+    }
+    public function show_fof($reqDatas) {
+        $uModel = new actionModel();
+        $uModel->show_fof($reqDatas);
+    }
 } 

@@ -49,6 +49,14 @@ class userApi
                 $actionCtr = new actionController();
                 $actionCtr->showFriends($reqDatas);
                 break;
+            case 'showLove':
+                $actionCtr = new actionController();
+                $actionCtr->showLove($reqDatas);
+                break;
+            case 'show_fof': //显示朋友的第一级朋友
+                $actionCtr = new actionController();
+                $actionCtr->show_fof($reqDatas);
+                break;
             default:
                 exit('请检查接口后请重试！');
         }
