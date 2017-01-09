@@ -41,6 +41,10 @@ class userApi
                 $actionCtr = new actionController();
                 $actionCtr->addFriends($reqDatas);
                 break;
+            case 'addLove':
+                $actionCtr = new actionController();
+                $actionCtr->addLove($reqDatas);
+                break;
             case 'showFriends':
                 $actionCtr = new actionController();
                 $actionCtr->showFriends($reqDatas);

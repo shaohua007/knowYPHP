@@ -11,4 +11,12 @@ class actionController {
         $uModel = new actionModel();
         $uModel->addFriends($reqDatas);
     }
+    public function addLove($reqDatas) {
+        $uModel = new actionModel();
+        $uModel->addLove($reqDatas);
+    }
+    public function showFriends($reqDatas) {
+        $uModel = new actionModel();
+        $uModel->showFriends($reqDatas);
+    }
 } 
