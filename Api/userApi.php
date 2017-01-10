@@ -53,7 +53,7 @@ class userApi
                 $actionCtr = new actionController();
                 $actionCtr->showLove($reqDatas);
                 break;
-            case 'show_fof': //显示朋友的第一级朋友
+            case 'show_fof': //显示半熟人（朋友的第一级朋友）
                 $actionCtr = new actionController();
                 $actionCtr->show_fof($reqDatas);
                 break;
