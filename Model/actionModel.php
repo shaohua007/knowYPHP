@@ -12,10 +12,8 @@ class actionModel {
     public function addFriends($reqDatas) {
         $connection = new conn();
         $mysqli = $connection->index();
-        $params = array();
         $resDataModel = new resDataModel();
         $resData = $resDataModel->resJson;
-//        $params['status'] = 202;
         $dog1 = $reqDatas['dog1'];
         $dog2 = $reqDatas['dog2'];
         try {
@@ -176,7 +174,6 @@ class actionModel {
         $uname = $reqDatas['uname'];
         $array1 = array();
         $array2 = array();
-        $sql_arr = array();
         try {
             if($res = mysqli_query($mysqli,"select * from dog_vs_dog where dog1 = '$uname'")){
                 while($row = mysqli_fetch_assoc($res)) {

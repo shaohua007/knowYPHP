@@ -83,6 +83,7 @@ class userModel
                 case 'sports':  $dogInfo->sports = $_value;break;
                 case 'reading':  $dogInfo->reading = $_value;break;
                 case 'daily':  $dogInfo->daily = $_value;break;
+                case 'typeApi':  break;
                 default: exit('接口参数有误');
             }
         }
@@ -118,7 +119,7 @@ class userModel
         if($res01){
             $sonArray = array();
             foreach($res01 as $_key => $_value) {
-                $sonArray["$_key"] = $_value;
+                $sonArray[$_key] = $_value;
             }
             $params['status'] = 200;
             $params['datas'] = $sonArray;
@@ -127,6 +128,47 @@ class userModel
             $params['status'] = 201;
             $params['datas'] = '获取数据失败！';
             echo json_encode($params);
+        }
+        mysqli_close($mysqli);
+    }
+    public function upPic($pathArr,$reqDatas,$myPic) {
+        $connection = new conn();
+        $mysqli = $connection->index();
+        $resDataModel = new resDataModel();
+        $resData = $resDataModel->resJson;
+        $uname = $reqDatas['uname'];
+        try {
+//            $sql1 = "update single_dog_info  set  icon = '{$pathArr['file1']}' where uname = '$uname';";
+            $sql2 ="update single_dog_info  set  icon2 = '' where uname = '$uname';";
+            $sql3= "update single_dog_info  set  icon3 = '' where uname = '$uname';";
+            foreach($myPic as $key=>$value) {
+                switch($key) {
+                    case 'file1' :
+                        $sql1 = "update single_dog_info  set  icon = '{$pathArr['file1']}' where uname = '$uname';";
+                        break;
+                    case 'file2' :
+                        $sql2="update single_dog_info  set  icon2 = '{$pathArr['file2']}' where uname = '$uname';";
+                        break;
+                    case 'file3' :
+                        $sql3= "update single_dog_info  set  icon3 = '{$pathArr['file3']}' where uname = '$uname';";
+                        break;
+                    default :
+                        break;
+                }
+            }
+            if(mysqli_multi_query($mysqli, $sql1.$sql2.$sql3)) {
+                $resData['status'] = 200;
+                $resData['datas'] = array('插入图片路径数据成功');
+                echo json_encode($resData);
+            }else {
+                $resData['status'] = 202;
+                $resData['datas'] = array('插入图片路径数据失败');
+                echo json_encode($resData);
+            }
+        }catch(Exception $e) {
+            $resData['status'] = 500;//服务器运行错误
+            $resData['datas'] = array($e->getMessage());
+            echo json_encode($resData);
         }
         mysqli_close($mysqli);
     }

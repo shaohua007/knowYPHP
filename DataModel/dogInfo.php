@@ -16,4 +16,7 @@ class dogInfo
     public $sports = '';
     public $reading = '';
     public $daily = '';
+    public $icon = '';
+    public $icon2 = '';
+    public $icon3 = '';
 }
