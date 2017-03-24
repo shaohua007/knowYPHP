@@ -20,42 +20,49 @@ class actionModel {
             $res = mysqli_query($mysqli,"select * from dog_request where dog_req01 = '$dog2' and dog_req02 = '$dog1' and f_tag = 0");
             $res01 = mysqli_query($mysqli,"select * from dog_request where dog_req01 = '$dog1' and dog_req02 = '$dog2'");
             $res02 = mysqli_query($mysqli,"select * from dog_request where dog_req01 = '$dog2' and dog_req02 = '$dog1' and f_tag = 1");
-            //如果之前没被对方申请则新建一条记录，如果已申请则标记为好友；
-            if($res && $res01){
-                if(mysqli_num_rows($res01)) {
-                    $resData['status'] = 201;
-                    $resData['datas'] = array('朋友申请数据已存在');
-                    echo json_encode($resData);
-                }else if(mysqli_num_rows($res)){
-                    //当对方也申请且f_tag好友标记为0时加入通知数据更新f_tag；
-                    $sql03 = "update dog_request set f_tag = 1 where dog_req01 = '$dog2' and dog_req02 = '$dog1';";
-                    $sql03 .= "insert into dog_vs_dog (dog1, dog2) values ('$dog1','$dog2'),('$dog2','$dog1');";
-                    $sql03 .= "insert into dog_notice (uname, notice) values ('$dog1', '您与{$dog2}已成为好友'),('$dog2', '您与{$dog1}已成为好友')";
+            $res04 = mysqli_query($mysqli,"select * from single_dog_users where uname = '$dog2'");//判断申请对象是否存在
+            if($res04 && mysqli_num_rows($res04)){
+                if($res && $res01){
+                    if(mysqli_num_rows($res01)) {
+                        $resData['status'] = 201;
+                        $resData['datas'] = array('朋友申请数据已存在');
+                        echo json_encode($resData);
+                    }else if(mysqli_num_rows($res)){
+                        //当对方也申请且f_tag好友标记为0时加入通知数据更新f_tag；
+                        $sql03 = "update dog_request set f_tag = 1 where dog_req01 = '$dog2' and dog_req02 = '$dog1';";
+                        $sql03 .= "insert into dog_vs_dog (dog1, dog2) values ('$dog1','$dog2'),('$dog2','$dog1');";
+                        $sql03 .= "insert into dog_notice (uname, notice) values ('$dog1', '您与{$dog2}已成为好友'),('$dog2', '您与{$dog1}已成为好友')";
 //                    var_dump(@mysqli_multi_query($mysqli, $sql03));
-                    if(mysqli_multi_query($mysqli, $sql03)) {
-                        $resData['status'] = 200;
-                        $resData['datas'] = array('插入朋友标记跟通知数据成功');
-                        echo json_encode($resData);
+                        if(mysqli_multi_query($mysqli, $sql03)) {
+                            $resData['status'] = 200;
+                            $resData['datas'] = array('插入朋友标记跟通知数据成功');
+                            echo json_encode($resData);
+                        }else {
+                            $resData['status'] = 202;
+                            $resData['datas'] = array('插入朋友标记跟通知数据失败');
+                            echo json_encode($resData);
+                        }
+                    }else if(!mysqli_num_rows($res02)){
+                        $query = @mysqli_query($mysqli, "insert into dog_request (dog_req01, dog_req02) values ('$dog1','$dog2')");
+                        if($query) {
+                            $resData['status'] = 200;
+                            $resData['datas'] = array('插入朋友申请数据成功');
+                            echo json_encode($resData);
+                        }
                     }else {
-                        $resData['status'] = 202;
-                        $resData['datas'] = array('插入朋友标记跟通知数据失败');
+                        $resData['status'] = 203;
+                        $resData['datas'] = array('朋友申请数据已存在');
                         echo json_encode($resData);
                     }
-                }else if(!mysqli_num_rows($res02)){
-                    $query = @mysqli_query($mysqli, "insert into dog_request (dog_req01, dog_req02) values ('$dog1','$dog2')");
-                    if($query) {
-                        $resData['status'] = 200;
-                        $resData['datas'] = array('插入朋友申请数据成功');
-                        echo json_encode($resData);
-                    }
-                }else {
-                    $resData['status'] = 201;
-                    $resData['datas'] = array('朋友申请数据已存在');
-                    echo json_encode($resData);
-                }
 //                $res01 = mysqli_query($mysqli,"select * from dog_request where dog_req01 = '$dog1' and dog_req02 = '$dog2'");
 
+                }
+            }else{
+                $resData['status'] = 204;
+                $resData['datas'] = array('您填写的好友昵称不存在!');
+                echo json_encode($resData);
             }
+            //如果之前没被对方申请则新建一条记录，如果已申请则标记为好友；
         }catch(Exception $e) {
             $resData['status'] = 500;//服务器运行错误
             $resData['datas'] = array($e->getMessage());
@@ -72,17 +79,22 @@ class actionModel {
         $love2 = $reqDatas['love2'];
         try {
             $res = mysqli_query($mysqli,"select * from love_request where love1 = '$love2' and love2 = '$love1'");
+            $res1 = mysqli_query($mysqli,"select * from love_request where love1 = '$love1' and love2 = '$love2'");
             //如果之前没被对方申请则新建一条记录，如果已申请则标记为好友；
-            if($res){
+            if(mysqli_num_rows($res1)){
+                $resData['status'] = 200;
+                $resData['datas'] = array('您的心意已传达成功了！');
+                echo json_encode($resData);
+            }else if($res){
                 if(!mysqli_num_rows($res)) {
                     $sql01 = "insert into love_request (love1, love2) values ('$love1','$love2')";
                     if(@mysqli_query($mysqli, $sql01)) {
                         $resData['status'] = 200;
-                        $resData['datas'] = array('插入love请求数据成功');
+                        $resData['datas'] = array('您的心意已传达成功！');
                         echo json_encode($resData);
                     }else {
                         $resData['status'] = 202;
-                        $resData['datas'] = array('插入love请求数据失败');
+                        $resData['datas'] = array('您的心意传达失败！');
                         echo json_encode($resData);
                     }
                 }else{
@@ -91,11 +103,11 @@ class actionModel {
 //                    var_dump(@mysqli_multi_query($mysqli, $sql02));
                     if(mysqli_multi_query($mysqli, $sql02)) {
                         $resData['status'] = 200;
-                        $resData['datas'] = array('插入lover标记跟通知数据成功');
+                        $resData['datas'] = array('其实他/她早就喜欢你了！');
                         echo json_encode($resData);
                     }else {
                         $resData['status'] = 202;
-                        $resData['datas'] = array('插入lover标记跟通知数据失败');
+                        $resData['datas'] = array('您的心意传达失败！');
                         echo json_encode($resData);
                     }
                 }
@@ -114,7 +126,7 @@ class actionModel {
         $resData = $resDataModel->resJson;
         $uname = $reqDatas['uname'];
         try {
-            if($res = mysqli_query($mysqli,"select * from dog_vs_dog where dog1 = '$uname'")){
+            if($res = mysqli_query($mysqli,"select * from dog_vs_dog where dog1 = '$uname';")){
                 while($row = mysqli_fetch_assoc($res)) {
                     $resData['datas'][] = $row['dog2'];
                 }

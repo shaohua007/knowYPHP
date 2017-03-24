@@ -114,7 +114,7 @@ class userModel
         $connection = new conn();
         $mysqli = $connection->index();
         $params = array();
-        $sql01 = "select * from single_dog_info where uid= '{$reqDatas['uid']}'";
+       $sql01 = "select * from single_dog_info where uid= '{$reqDatas['uid']}' or uname= '{$reqDatas['uname']}';";
         $res01 = mysqli_fetch_assoc(mysqli_query($mysqli,$sql01));
         if($res01){
             $sonArray = array();
@@ -126,12 +126,13 @@ class userModel
             echo json_encode($params);
         }else{
             $params['status'] = 201;
+//            $params['datas'] = $reqDatas;
             $params['datas'] = '获取数据失败！';
             echo json_encode($params);
         }
         mysqli_close($mysqli);
     }
-    public function upPic($pathArr,$reqDatas,$myPic) {
+     public function upPic($pathArr,$reqDatas,$myPic) {
         $connection = new conn();
         $mysqli = $connection->index();
         $resDataModel = new resDataModel();

@@ -41,7 +41,7 @@ class userApi
                 $userCtr =new userController();
                 $userCtr->addInfo($reqDatas);
                 break;
-            /*展示用户信息接口， POST请求，参数typeApi：showDogInfo，uid：用户ID*/
+            /*展示用户信息接口， POST请求，参数typeApi：showDogInfo，uname: [用户名] 数组*/
             case 'showDogInfo':
                 $userCtr = new userController();
                 $userCtr->showInfo($reqDatas);
@@ -61,12 +61,17 @@ class userApi
                 $actionCtr = new actionController();
                 $actionCtr->showFriends($reqDatas);
                 break;
+            /*显示lover列表接口(互生情愫)， POST请求，参数typeApi：showLove，uname:用户名*/
+             case 'showLove':
+                $actionCtr = new actionController();
+                $actionCtr->showLove($reqDatas);
+                break;
             /*显示lover列表接口， POST请求，参数typeApi：showLove，uname:用户名*/
             case 'showLove':
                 $actionCtr = new actionController();
                 $actionCtr->showLove($reqDatas);
                 break;
-            /*显示半数人列表接口， POST请求，参数typeApi：show_fof，uname:用户名*/
+            /*显示半熟人列表接口， POST请求，参数typeApi：show_fof，uname:用户名*/
             case 'show_fof': //显示半熟人（朋友的朋友）
                 $actionCtr = new actionController();
                 $actionCtr->show_fof($reqDatas);
